@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Game;
 
 use App\Game\Models\Link;
@@ -14,14 +16,6 @@ readonly class Manager
 
     public function generateGameLink(string $userName, string $phoneNumber): Link
     {
-        //        return now()->add(interval($interval));
-
-//        dd(
-//            $userName . $phoneNumber . time(),
-//            hash_hmac('sha512', $userName . $phoneNumber . time(), Crypt::getKey()),
-//            strlen(hash_hmac('sha512', $userName . $phoneNumber . time(), Crypt::getKey())),
-//        );
-
         $model = new Link();
         $model->user_name = $userName;
         $model->phone_number = $phoneNumber;
@@ -30,6 +24,11 @@ readonly class Manager
         $model->save();
 
         return $model;
+    }
+
+    public function getGameLink(string $hash): Link
+    {
+        return Link::ofHash($hash)->firstOrFail();
     }
 
 //    private function generateLinkHash(string $userName, string $phoneNumber): string

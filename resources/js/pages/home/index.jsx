@@ -1,13 +1,12 @@
-import React, {memo, useCallback, useEffect, useState} from 'react'
+import React, {memo, useCallback, useState} from 'react'
 import {Button, Link} from "@mui/material";
 import * as yup from 'yup'
 import {Formik, Field, Form} from "formik";
 import {TextField} from 'formik-mui';
-import {enqueueSnackbar, useSnackbar} from 'notistack';
+import {enqueueSnackbar} from 'notistack';
 import {postGenerateGameLink, getApiErrorFromResponse} from "../../api/index.js";
 
 const HomeIndex = ({history}) => {
-    // const [linkData, setLinkData] = useState(null)
     const [linkData, setLinkData] = useState({})
 
     const values = {
@@ -84,6 +83,5 @@ const HomeIndex = ({history}) => {
         {linkData.link && <Link href={linkData.link}>Game link</Link>}
     </>
 }
-
 
 export default memo(HomeIndex)

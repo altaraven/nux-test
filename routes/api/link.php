@@ -7,6 +7,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('/v1/link')
     ->group(function () {
-//        Route::get('/coins-info', [AmlBotController::class, 'getCoinsInfo']);
         Route::post('/generate', [LinkController::class, 'postGenerateGameLink']);
+        Route::get('{hash}/view', [LinkController::class, 'getGameLink']);
     });

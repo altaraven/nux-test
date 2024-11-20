@@ -17,4 +17,11 @@ class LinkController extends Controller
             $manager->generateGameLink($request->getUserName(), $request->getPhoneNumber())
         );
     }
+
+    public function getGameLink(Manager $manager, string $hash): LinkResource
+    {
+        return new LinkResource(
+            $manager->getGameLink($hash)
+        );
+    }
 }

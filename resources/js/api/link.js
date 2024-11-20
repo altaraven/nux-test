@@ -5,3 +5,7 @@ import axios from 'axios'
 export function postGenerateGameLink (userName, phoneNumber) {
     return axios.post(`/api/v1/link/generate`, { userName, phoneNumber })
 }
+
+export function loadGameLinkData (hash) {
+    return axios.get(`/api/v1/link/${hash}/view`)
+}

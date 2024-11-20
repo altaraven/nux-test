@@ -1,6 +1,6 @@
 import './bootstrap';
 import ReactDOM from 'react-dom/client';
-import App from "./Layouts/App";
+import App from "./entrypoint/app";
 import { SnackbarProvider } from 'notistack';
 
 ReactDOM.createRoot(document.getElementById('app')).render(
