@@ -1,13 +1,14 @@
 import React, {memo, useCallback, useEffect, useState} from 'react'
-import {Button, Icon, Paper, Typography} from "@mui/material";
+import {Button, Link} from "@mui/material";
 import * as yup from 'yup'
 import {Formik, Field, Form} from "formik";
 import {TextField} from 'formik-mui';
-// import { withRouter } from 'react-router'
-import Box from '@mui/material/Box';
+import {enqueueSnackbar, useSnackbar} from 'notistack';
+import {postGenerateGameLink, getApiErrorFromResponse} from "../../api/index.js";
 
-const HomeIndex = ({enqueueSnackbar, history}) => {
-    const [uniqueLink, setUniqueLink] = useState(null)
+const HomeIndex = ({history}) => {
+    // const [linkData, setLinkData] = useState(null)
+    const [linkData, setLinkData] = useState({})
 
     const values = {
         userName: '',
@@ -30,14 +31,20 @@ const HomeIndex = ({enqueueSnackbar, history}) => {
     }
 
     const onSubmit = useCallback(values => {
-        setUniqueLink('--UNIQUE LINK GENERATED--')
-        console.log('Submit')
+        const userName = values.userName
+        const phoneNumber = values.phoneNumber
+
+        return postGenerateGameLink(userName, phoneNumber)
+            .then(({data}) => {
+                setLinkData(data.data)
+                enqueueSnackbar('Game link successfully generated', {variant: 'success'})
+            })
+            .catch(({response}) => enqueueSnackbar(getApiErrorFromResponse(response), {variant: 'error'}))
     }, [history, enqueueSnackbar])
 
 
     return <>
-        {/*<h2 className="text-base/7 font-semibold text-gray-900">Generate unique link</h2>*/}
-        {!uniqueLink && (
+        {!linkData.link && (
             <Formik
                 initialValues={values}
                 onSubmit={onSubmit}
@@ -65,22 +72,16 @@ const HomeIndex = ({enqueueSnackbar, history}) => {
                                     </div>
                                 </div>
                             </div>
-                            </div>
-                            </div>
+                        </div>
+                    </div>
 
-                            {/*<Field component={TextField} name="userName" label="Username" type="text"/>*/}
-                            {/*<Field component={TextField} name="phoneNumber" label="Phonenumber" type="text"/>*/}
-                            {/*<Button type="submit" variant="contained" color="primary">Register</Button>*/}
-                            <div className="mt-6 flex items-center justify-end gap-x-6">
-                                <Button type="submit" variant="contained" color="primary">Register</Button>
-                            </div>
+                    <div className="mt-6 flex items-center justify-end gap-x-6">
+                        <Button type="submit" variant="contained" color="primary">Register</Button>
+                    </div>
                 </Form>
             </Formik>
-            )}
-        {/*    </div>*/}
-        {/*</div>*/}
-        {/*</div>*/}
-        {uniqueLink ? uniqueLink : null}
+        )}
+        {linkData.link && <Link href={linkData.link}>Game link</Link>}
     </>
 }
 

@@ -18,15 +18,7 @@ class LinkResource extends JsonResource
             'userName' => $this->resource->user_name,
             'phoneNumber' => $this->resource->phone_number,
             'hash' => $this->resource->hash,
-
-//            'symbol' => $this->resource->symbol,
-//            'currencySymbol' => $currencySymbol,
-//            'transport' => $transport,
-//            'addressUrl' => url_address($this->resource->address, $this->resource->symbol, null, config('app.dev')),
-//            'projectKey' => $this->resource->project->project_key,
-//            'userId' => $this->resource->user_id,
-//            'type' => $this->resource->type,
-//            'createdAt' => $this->resource->created_at->timestamp,
+            'link' => url("/game/{$this->resource->hash}"),
         ];
     }
 }

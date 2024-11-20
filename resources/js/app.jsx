@@ -1,10 +1,10 @@
 import './bootstrap';
 import ReactDOM from 'react-dom/client';
-import HelloWorld from './components/HelloWorld';
-import CompaniesIndex from "./Pages/Companies/Index";
 import App from "./Layouts/App";
+import { SnackbarProvider } from 'notistack';
 
 ReactDOM.createRoot(document.getElementById('app')).render(
-    // <HelloWorld />
-    <App />
+    <SnackbarProvider maxSnack={3} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
+        <App />
+    </SnackbarProvider>
 );

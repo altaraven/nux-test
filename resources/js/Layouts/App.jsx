@@ -7,8 +7,10 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<HomeIndex />} />
-                <Route path="/dashboard" element={<CompaniesIndex />} />
-                <Route path="/users" element={<UsersIndex />} />
+                {/*<Route path={'/game/:hash'} exact component={({ match }) => <WalletTypeStats walletType={match.params.type}/>}/>*/}
+
+                {/*<Route path="/dashboard" element={<CompaniesIndex />} />*/}
+                {/*<Route path="/users" element={<UsersIndex />} />*/}
             </Routes>
         </BrowserRouter>
     );
