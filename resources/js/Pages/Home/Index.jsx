@@ -36,7 +36,7 @@ const HomeIndex = ({enqueueSnackbar, history}) => {
 
 
     return <>
-        <h2 className="text-xl font-semibold text-black dark:text-white">Generate unique link</h2>
+        {/*<h2 className="text-base/7 font-semibold text-gray-900">Generate unique link</h2>*/}
         {!uniqueLink && (
             <Formik
                 initialValues={values}
@@ -48,12 +48,38 @@ const HomeIndex = ({enqueueSnackbar, history}) => {
                 // }}
             >
                 <Form>
-                    <Field component={TextField} name="userName" label="Username" type="text"/>
-                    <Field component={TextField} name="phoneNumber" label="Phonenumber" type="text"/>
-                    <Button type="submit" variant="contained" color="primary">Register</Button>
+                    <div className="space-y-12">
+                        <div className="border-b border-gray-900/10 pb-12">
+                            <h2 className="text-base/7 font-semibold text-gray-900">Generate unique link</h2>
+                            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                                <div className="sm:col-span-4">
+                                    <div className="mt-6">
+                                        <Field component={TextField} name="userName" label="Username" type="text"/>
+                                    </div>
+                                </div>
+
+                                <div className="sm:col-span-4">
+                                    <div className="mt-6">
+                                        <Field component={TextField} name="phoneNumber" label="Phonenumber"
+                                               type="text"/>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                            </div>
+
+                            {/*<Field component={TextField} name="userName" label="Username" type="text"/>*/}
+                            {/*<Field component={TextField} name="phoneNumber" label="Phonenumber" type="text"/>*/}
+                            {/*<Button type="submit" variant="contained" color="primary">Register</Button>*/}
+                            <div className="mt-6 flex items-center justify-end gap-x-6">
+                                <Button type="submit" variant="contained" color="primary">Register</Button>
+                            </div>
                 </Form>
             </Formik>
-        )}
+            )}
+        {/*    </div>*/}
+        {/*</div>*/}
+        {/*</div>*/}
         {uniqueLink ? uniqueLink : null}
     </>
 }
