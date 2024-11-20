@@ -3,7 +3,7 @@ import axios from 'axios'
 // import _ from 'lodash'
 
 export function postGenerateGameLink (userName, phoneNumber) {
-    return axios.post(`/api/v1/link/generate`, { userName, phoneNumber })
+    return axios.post(`/api/v1/link/create`, { userName, phoneNumber })
 }
 
 export function loadGameLinkData (hash) {

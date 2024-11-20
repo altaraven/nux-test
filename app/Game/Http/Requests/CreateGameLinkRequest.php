@@ -6,7 +6,7 @@ namespace App\Game\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class GenerateLinkRequest extends FormRequest
+class CreateGameLinkRequest extends FormRequest
 {
     public function rules(): array
     {

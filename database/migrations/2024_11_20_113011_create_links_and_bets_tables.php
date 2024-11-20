@@ -19,10 +19,21 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
+
+        Schema::create('bets', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('link_id')->constrained();
+            $table->unsignedSmallInteger('dice_result');
+            $table->boolean('is_win');
+            $table->decimal('amount');
+
+            $table->timestamp('created_at')->nullable();
+        });
     }
 
     public function down(): void
     {
+        Schema::dropIfExists('bets');
         Schema::dropIfExists('links');
     }
 };
