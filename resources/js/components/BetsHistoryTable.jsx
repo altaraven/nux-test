@@ -9,9 +9,6 @@ import Paper from '@mui/material/Paper';
 import YesNoBadge from "./YesNoBadge.jsx";
 
 const BetsHistoryTable = ({ rows }) => {
-    console.log('rows')
-    console.log(rows)
-
     return <>
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">

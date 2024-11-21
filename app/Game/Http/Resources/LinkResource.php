@@ -19,6 +19,7 @@ class LinkResource extends JsonResource
             'phoneNumber' => $this->resource->phone_number,
             'hash' => $this->resource->hash,
             'link' => url("/game/{$this->resource->hash}"),
+            'expirationDate' => $this->resource->expiration_date->format('Y-m-d H:i:s'),
         ];
     }
 }

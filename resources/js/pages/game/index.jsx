@@ -1,20 +1,25 @@
 import React, {memo, useCallback, useState, useEffect} from 'react'
-import {Button, Link} from "@mui/material";
+import {Button} from "@mui/material";
 import {enqueueSnackbar} from 'notistack';
 import {loadBetsHistory, getApiErrorFromResponse, loadGameLinkData, postMakeBet} from "../../api/index.js";
 import {withParams} from "../../components/WithParams.jsx";
 import BetsHistoryTable from "../../components/BetsHistoryTable.jsx";
 import GameResultArea from "../../components/GameResultArea.jsx";
+import GameErrorScreen from "../../components/GameErrorScreen.jsx";
 
 const GameIndex = ({params}) => {
     const [linkData, setLinkData] = useState({})
     const [gameResult, setGameResult] = useState({})
     const [betsHistory, setBetsHistory] = useState(null)
+    const [errorMessage, setErrorMessage] = useState(null);
 
     useEffect(() => {
         loadGameLinkData(params.hash)
             .then(({data}) => setLinkData(data.data))
-        //TODO: add expired link handling. Maybe redirect?
+            .catch(({response}) => {
+                enqueueSnackbar(getApiErrorFromResponse(response), {variant: 'error'})
+                setErrorMessage(response.data.message);
+            })
     }, [params, setLinkData])
 
     const onGameResultClick = useCallback(() => {
@@ -34,6 +39,8 @@ const GameIndex = ({params}) => {
             })
             .catch(({response}) => enqueueSnackbar(getApiErrorFromResponse(response), {variant: 'error'}))
     }, [enqueueSnackbar])
+
+    if (errorMessage) return <GameErrorScreen errorMessage={errorMessage} />
 
     return <>
         <Button onClick={onGameResultClick} variant="contained" color="success">Imfeelinglucky</Button>

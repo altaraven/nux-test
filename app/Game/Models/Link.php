@@ -10,6 +10,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Link extends Model
 {
+    protected function casts(): array
+    {
+        return [
+            'expiration_date' => 'datetime:Y-m-d H:i:s',
+        ];
+    }
+
     public function bets(): HasMany
     {
         return $this->hasMany(Bet::class);

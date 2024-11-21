@@ -52,7 +52,13 @@ readonly class Manager
 
     public function getGameLink(string $hash): Link
     {
-        return Link::ofHash($hash)->firstOrFail();
+        $link = Link::ofHash($hash)->firstOrFail();
+
+        if (now()->gte($link->expiration_date)) {
+            throw new \Exception('Game link has expired.');
+        }
+
+        return $link;
     }
 
     private function generateLinkHash(string $userName, string $phoneNumber): string
