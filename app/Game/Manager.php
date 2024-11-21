@@ -68,7 +68,10 @@ readonly class Manager
 
     public function getBetsHistory(string $hash): Collection
     {
-        $link = Link::ofHash($hash)->firstOrFail();
+        $link = Link::ofHash($hash)->first();
+        if (!$link) {
+            throw new \Exception('Game link is invalid.');
+        }
 
         return $link->bets()->take($this->config['bets_history_limit'])->latest()->get();
     }
