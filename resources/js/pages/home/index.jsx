@@ -5,6 +5,7 @@ import {Formik, Field, Form} from "formik";
 import {TextField} from 'formik-mui';
 import {enqueueSnackbar} from 'notistack';
 import {postGenerateGameLink, getApiErrorFromResponse} from "../../api/index.js";
+import "yup-phone-lite";
 
 const HomeIndex = ({history}) => {
     const [linkData, setLinkData] = useState({})
@@ -22,6 +23,7 @@ const HomeIndex = ({history}) => {
                 .label('Username'),
             phoneNumber: yup
                 .string()
+                .phone('UA')
                 .required()
                 .label('Phonenumber'),
         }

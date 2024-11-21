@@ -12,7 +12,7 @@ class CreateGameLinkRequest extends FormRequest
     {
         return [
             'userName' => 'required|string|max:100',
-            'phoneNumber' => 'required|string|max:20|unique:links,phone_number',
+            'phoneNumber' => 'required|phone:UA|unique:links,phone_number',
         ];
     }
 
