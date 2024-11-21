@@ -1,4 +1,5 @@
 export * from './link'
+export * from './bet'
 
 export const StatusCode = {
   BadRequest: 400,

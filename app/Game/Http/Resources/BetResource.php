@@ -15,6 +15,7 @@ class BetResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->resource->id,
             'linkId' => $this->resource->link_id,
             'diceResult' => $this->resource->dice_result,
             'isWin' => $this->resource->is_win,

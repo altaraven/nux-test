@@ -1,64 +1,50 @@
 import React, {memo, useCallback, useState, useEffect} from 'react'
 import {Button, Link} from "@mui/material";
-import * as yup from 'yup'
-import {Formik, Field, Form} from "formik";
-import {TextField} from 'formik-mui';
 import {enqueueSnackbar} from 'notistack';
-import {postGenerateGameLink, getApiErrorFromResponse, loadGameLinkData} from "../../api/index.js";
+import {loadBetsHistory, getApiErrorFromResponse, loadGameLinkData, postMakeBet} from "../../api/index.js";
 import {withParams} from "../../components/WithParams.jsx";
+import BetsHistoryTable from "../../components/BetsHistoryTable.jsx";
+import GameResultArea from "../../components/GameResultArea.jsx";
 
 const GameIndex = ({params}) => {
-
-    // console.log('hash')
-    // console.log(params)
-    // console.log(params.hash)
     const [linkData, setLinkData] = useState({})
+    const [gameResult, setGameResult] = useState({})
+    const [betsHistory, setBetsHistory] = useState(null)
 
     useEffect(() => {
-        // setLoading(true)
-
         loadGameLinkData(params.hash)
-            .then(({ data }) => setLinkData(data.data))
-            // .finally(() => setLoading(false))
+            .then(({data}) => setLinkData(data.data))
+        //TODO: add expired link handling. Maybe redirect?
     }, [params, setLinkData])
 
-    //
-    // const values = {
-    //     userName: '',
-    //     phoneNumber: '',
-    // }
+    const onGameResultClick = useCallback(() => {
+        return postMakeBet(params.hash)
+            .then(({data}) => {
+                setGameResult(data.data)
+                enqueueSnackbar('Game finished!', {variant: 'success'})
+            })
+            .catch(({response}) => enqueueSnackbar(getApiErrorFromResponse(response), {variant: 'error'}))
+    }, [enqueueSnackbar])
 
-    // const validationSchema = () => {
-    //     const schema = {
-    //         userName: yup
-    //             .string()
-    //             .required()
-    //             .label('Username'),
-    //         phoneNumber: yup
-    //             .string()
-    //             .required()
-    //             .label('Phonenumber'),
-    //     }
-    //
-    //     return yup.object().shape(schema)
-    // }
-
-    // const onSubmit = useCallback(values => {
-    //     const userName = values.userName
-    //     const phoneNumber = values.phoneNumber
-    //
-    //     return postGenerateGameLink(userName, phoneNumber)
-    //         .then(({data}) => {
-    //             setLinkData(data.data)
-    //             enqueueSnackbar('Game link successfully generated', {variant: 'success'})
-    //         })
-    //         .catch(({response}) => enqueueSnackbar(getApiErrorFromResponse(response), {variant: 'error'}))
-    // }, [history, enqueueSnackbar])
-
+    const onHistoryClick = useCallback(() => {
+        return loadBetsHistory(params.hash)
+            .then(({data}) => {
+                setBetsHistory(data.data)
+                enqueueSnackbar('Bets history loaded', {variant: 'success'})
+            })
+            .catch(({response}) => enqueueSnackbar(getApiErrorFromResponse(response), {variant: 'error'}))
+    }, [enqueueSnackbar])
 
     return <>
-        <div>{linkData.userName}</div>
-        <div>{linkData.hash}</div>
+        <Button onClick={onGameResultClick} variant="contained" color="success">Imfeelinglucky</Button>
+        {gameResult.id && (
+            <GameResultArea data={gameResult}/>
+        )}
+
+        <Button onClick={onHistoryClick} variant="outlined">History</Button>
+        {betsHistory && (
+            <BetsHistoryTable rows={betsHistory}/>
+        )}
     </>
 }
 
