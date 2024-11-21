@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace App\Game\Http\Controllers;
 
 use App\Game\Http\Requests\CreateGameLinkRequest;
-use App\Game\Http\Requests\DeactivateGameLinkRequest;
-use App\Game\Http\Requests\ReGenerateGameLinkRequest;
+use App\Game\Http\Requests\PassExistingHashRequest;
 use App\Game\Http\Resources\LinkResource;
 use App\Game\Manager;
 use App\Http\Controllers\Controller;
@@ -27,14 +26,14 @@ class LinkController extends Controller
         );
     }
 
-    public function postReGenerateGameLink(Manager $manager, ReGenerateGameLinkRequest $request): LinkResource
+    public function postReGenerateGameLink(Manager $manager, PassExistingHashRequest $request): LinkResource
     {
         return new LinkResource(
             $manager->reGenerateGameLink($request->getHash())
         );
     }
 
-    public function putDeactivateGameLink(Manager $manager, DeactivateGameLinkRequest $request): LinkResource
+    public function putDeactivateGameLink(Manager $manager, PassExistingHashRequest $request): LinkResource
     {
         return new LinkResource(
             $manager->deactivateGameLink($request->getHash())

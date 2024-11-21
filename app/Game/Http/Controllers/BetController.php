@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Game\Http\Controllers;
 
+use App\Game\Http\Requests\PassExistingHashRequest;
 use App\Game\Http\Resources\BetResource;
 use App\Game\Manager;
 use App\Http\Controllers\Controller;
@@ -15,6 +16,13 @@ class BetController extends Controller
     {
         return BetResource::collection(
             $manager->getBetsHistory($hash)
+        );
+    }
+
+    public function postMakeBet(Manager $manager, PassExistingHashRequest $request): BetResource
+    {
+        return new BetResource(
+            $manager->makeBet($request->getHash())
         );
     }
 }

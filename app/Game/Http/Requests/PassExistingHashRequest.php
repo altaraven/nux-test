@@ -6,7 +6,7 @@ namespace App\Game\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ReGenerateGameLinkRequest extends FormRequest
+class PassExistingHashRequest extends FormRequest
 {
     public function rules(): array
     {

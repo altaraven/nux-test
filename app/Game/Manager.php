@@ -6,12 +6,14 @@ namespace App\Game;
 
 use App\Game\Models\Bet;
 use App\Game\Models\Link;
+use App\Game\Strategies\GameStrategy;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Crypt;
 
 readonly class Manager
 {
     public function __construct(
+        private GameStrategy $strategy,
         private array $config
     ) {
     }
@@ -63,5 +65,21 @@ readonly class Manager
         $link = Link::ofHash($hash)->firstOrFail();
 
         return $link->bets()->take($this->config['bets_history_limit'])->latest()->get();
+    }
+
+    public function makeBet(string $hash): Bet
+    {
+        $link = Link::ofHash($hash)->firstOrFail();
+
+        $gameResult = $this->strategy->play();
+
+        $bet = new Bet();
+        $bet->dice_result = $gameResult->diceResult;
+        $bet->is_win = $gameResult->isWin;
+        $bet->amount = $gameResult->amount;
+        $bet->link()->associate($link);
+        $bet->save();
+
+        return $bet;
     }
 }

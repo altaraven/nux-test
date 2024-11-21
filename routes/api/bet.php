@@ -8,4 +8,5 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('/v1/bet')
     ->group(function () {
         Route::get('{hash}/history', [BetController::class, 'getHistory']);
+        Route::post('/make', [BetController::class, 'postMakeBet']);
     });
