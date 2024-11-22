@@ -16,7 +16,7 @@ class LinkFactory extends Factory
             'phone_number' => $this->faker->phoneNumber(),
             'hash' => fn() => hash('sha256', random_bytes(100)),
             'expiration_date' => now()->addDays(7),
-            'is_active' =>  $this->faker->boolean(),
+            'is_active' => $this->faker->boolean(),
         ];
     }
 

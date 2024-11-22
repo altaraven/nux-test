@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Api;
+namespace Feature\Api;
 
 use App\Game\Models\Link;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-
 use Tests\TestCase;
 
 class LinkTest extends TestCase
