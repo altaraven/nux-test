@@ -52,9 +52,13 @@ readonly class Manager
 
     public function getGameLink(string $hash): Link
     {
-        $link = Link::ofHash($hash)->firstOrFail();
+        $link = Link::ofHash($hash)->active()->first();
 
-        if (now()->gte($link->expiration_date)) {
+        if (!$link) {
+            throw new \Exception('Game link not found or deactivated.');
+        }
+
+        if ($link->isExpired()) {
             throw new \Exception('Game link has expired.');
         }
 
@@ -68,9 +72,10 @@ readonly class Manager
 
     public function getBetsHistory(string $hash): Collection
     {
-        $link = Link::ofHash($hash)->first();
+        $link = Link::ofHash($hash)->active()->first();
+
         if (!$link) {
-            throw new \Exception('Game link is invalid.');
+            throw new \Exception('Game link not found or deactivated.');
         }
 
         return $link->bets()->take($this->config['bets_history_limit'])->latest()->get();
@@ -78,7 +83,15 @@ readonly class Manager
 
     public function makeBet(string $hash): Bet
     {
-        $link = Link::ofHash($hash)->firstOrFail();
+        $link = Link::ofHash($hash)->active()->first();
+
+        if (!$link) {
+            throw new \Exception('Game link not found or deactivated.');
+        }
+
+        if ($link->isExpired()) {
+            throw new \Exception('Game link has expired.');
+        }
 
         $gameResult = $this->strategy->play();
 

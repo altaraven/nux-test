@@ -26,4 +26,14 @@ class Link extends Model
     {
         return $query->where('hash', $hash);
     }
+
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query->where('is_active', true);
+    }
+
+    public function isExpired(): bool
+    {
+        return now()->gte($this->expiration_date);
+    }
 }

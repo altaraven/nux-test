@@ -10,7 +10,7 @@ import YesNoBadge from "./YesNoBadge.jsx";
 
 const BetsHistoryTable = ({ rows }) => {
     return <>
-        <TableContainer component={Paper}>
+        <TableContainer style={{marginTop: '1rem'}} component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                     <TableRow>

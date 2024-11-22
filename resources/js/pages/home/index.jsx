@@ -50,10 +50,6 @@ const HomeIndex = ({history}) => {
                 initialValues={values}
                 onSubmit={onSubmit}
                 validationSchema={validationSchema}
-                // onSubmit={async (values) => {
-                //     await new Promise((resolve) => setTimeout(resolve, 500));
-                //     alert(JSON.stringify(values, null, 2));
-                // }}
             >
                 <Form>
                     <div className="space-y-12">
@@ -61,14 +57,14 @@ const HomeIndex = ({history}) => {
                             <h2 className="text-base/7 font-semibold text-gray-900">Generate unique link</h2>
                             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                                 <div className="sm:col-span-4">
-                                    <div className="mt-6">
-                                        <Field component={TextField} name="userName" label="Username" type="text"/>
+                                    <div className="mt-6" style={{ height: '4rem' }}>
+                                        <Field sx={{ width: '25ch' }} component={TextField} name="userName" label="Username" type="text"/>
                                     </div>
                                 </div>
 
                                 <div className="sm:col-span-4">
-                                    <div className="mt-6">
-                                        <Field component={TextField} name="phoneNumber" label="Phonenumber"
+                                    <div className="mt-6" style={{ height: '4rem' }}>
+                                        <Field sx={{ width: '25ch' }} component={TextField} name="phoneNumber" label="Phonenumber"
                                                type="text"/>
                                     </div>
                                 </div>

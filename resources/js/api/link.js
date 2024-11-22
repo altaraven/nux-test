@@ -1,6 +1,4 @@
 import axios from 'axios'
-// import qs from 'qs'
-// import _ from 'lodash'
 
 export function postGenerateGameLink (userName, phoneNumber) {
     return axios.post(`/api/v1/link/create`, { userName, phoneNumber })
@@ -8,6 +6,10 @@ export function postGenerateGameLink (userName, phoneNumber) {
 
 export function postReGenerateGameLink (hash) {
     return axios.post(`/api/v1/link/re-generate`, { hash })
+}
+
+export function postDeactivateGameLink (hash) {
+    return axios.put(`/api/v1/link/deactivate`, { hash })
 }
 
 export function loadGameLinkData (hash) {

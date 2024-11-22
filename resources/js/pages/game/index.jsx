@@ -6,7 +6,7 @@ import {
     getApiErrorFromResponse,
     loadGameLinkData,
     postMakeBet,
-    postReGenerateGameLink
+    postReGenerateGameLink, postDeactivateGameLink
 } from "../../api/index.js";
 import {withParams} from "../../components/WithParams.jsx";
 import BetsHistoryTable from "../../components/BetsHistoryTable.jsx";
@@ -38,6 +38,15 @@ const GameIndex = ({params}) => {
             .catch(({response}) => enqueueSnackbar(getApiErrorFromResponse(response), {variant: 'error'}))
     }, [enqueueSnackbar])
 
+    const onDeactivateLinkClick = useCallback(() => {
+        return postDeactivateGameLink(params.hash)
+            .then(({data}) => {
+                // setReGeneratedLink(data.data.link)
+                enqueueSnackbar('Link successfully deactivated!', {variant: 'success'})
+            })
+            .catch(({response}) => enqueueSnackbar(getApiErrorFromResponse(response), {variant: 'error'}))
+    }, [enqueueSnackbar])
+
     const onGameResultClick = useCallback(() => {
         return postMakeBet(params.hash)
             .then(({data}) => {
@@ -59,20 +68,42 @@ const GameIndex = ({params}) => {
     if (errorMessage) return <GameErrorScreen errorMessage={errorMessage} />
 
     return <>
-        <Button onClick={onReGenerateLinkClick} variant="contained" color="info">Re-generate game link</Button>
-        {reGeneratedLink && (
-            <Link href={reGeneratedLink}>Game link</Link>
-        )}
+        <div style={{width: '40rem'}} className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div className="sm:col-span-4">
+                <div className="mt-6" style={{height: '4rem'}}>
+                    <Button onClick={onReGenerateLinkClick} variant="contained" color="info">Re-generate game
+                        link</Button>
+                    {reGeneratedLink && (
+                        <Link style={{paddingLeft: '4rem'}} href={reGeneratedLink}>Game link</Link>
+                    )}
+                </div>
+            </div>
 
-        <Button onClick={onGameResultClick} variant="contained" color="success">Imfeelinglucky</Button>
-        {gameResult.id && (
-            <GameResultArea data={gameResult}/>
-        )}
+            <div className="sm:col-span-4">
+                <div className="mt-6" style={{height: '4rem'}}>
+                    <Button onClick={onDeactivateLinkClick} variant="outlined" color="error">Deactivate game
+                        link</Button>
+                </div>
+            </div>
 
-        <Button onClick={onHistoryClick} variant="outlined">History</Button>
-        {betsHistory && (
-            <BetsHistoryTable rows={betsHistory}/>
-        )}
+            <div className="sm:col-span-4">
+                <div className="mt-6" style={{minHeight: '4rem'}}>
+                    <Button onClick={onGameResultClick} variant="contained" color="success">Imfeelinglucky</Button>
+                    {gameResult.id && (
+                        <GameResultArea data={gameResult}/>
+                    )}
+                </div>
+            </div>
+
+            <div className="sm:col-span-4">
+                <div className="mt-6" style={{minHeight: '4rem'}}>
+                    <Button onClick={onHistoryClick} variant="outlined">History</Button>
+                    {betsHistory && (
+                        <BetsHistoryTable rows={betsHistory}/>
+                    )}
+                </div>
+            </div>
+        </div>
     </>
 }
 

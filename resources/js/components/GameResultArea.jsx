@@ -9,7 +9,7 @@ import YesNoBadge from "./YesNoBadge.jsx";
 
 const GameResultArea = ({ data }) => {
     return <>
-        <TableContainer component={Paper}>
+        <TableContainer style={{marginTop: '1rem'}} component={Paper}>
             <Table>
                 <TableBody>
                     <TableRow><TableCell>Dice result</TableCell><TableCell>{data.diceResult}</TableCell></TableRow>

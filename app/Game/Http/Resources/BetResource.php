@@ -20,7 +20,6 @@ class BetResource extends JsonResource
             'diceResult' => $this->resource->dice_result,
             'isWin' => $this->resource->is_win,
             'amount' => $this->resource->amount,
-//            'createdAt' => $this->resource->created_at->timestamp,
             'createdAt' => $this->resource->created_at->format('Y-m-d H:i:s'),
         ];
     }
